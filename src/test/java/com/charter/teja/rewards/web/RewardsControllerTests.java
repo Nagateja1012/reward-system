@@ -54,27 +54,35 @@ public class RewardsControllerTests {
         assertEquals(expectedCustomer.get(0).getMonth2(), actualCustomers.get(0).getMonth2());
     }
 
-//    @Test
-//    void testCustomersById() {
-//        // Mocking data for the test
-//        Rewards rewards = new Rewards();
-//        rewards.setTotal(100);
-//        rewards.setFirstname("John");
-//        rewards.setLastname("Doe");
-//        rewards.setCustomerId(1);
-//
-//        // Mocking the rewardsService.getCustomerById method
-//        when(rewardsService.getCustomerById(1)).thenReturn(rewards);
-//
-//        // Perform the actual test
-//        Rewards actualCustomer = rewardsController.customersById(1);
-//
-//        // Verify the results
-//        assertEquals(rewards.getTotal(), actualCustomer.getTotal());
-//        assertEquals(rewards.getFirstname(), actualCustomer.getFirstname());
-//        assertEquals(rewards.getLastname(), actualCustomer.getLastname());
-//        assertEquals(rewards.getCustomerId(), actualCustomer.getCustomerId());
-//    }
+    @Test
+    void testCustomerById() {
+        Rewards rewards = new Rewards();
+        rewards.setTotal(100);
+        rewards.setFirstname("Teja");
+        rewards.setLastname("Dasari");
+        rewards.setCustomerId(1);
+        rewards.setMonth1(178);
+        rewards.setMonth2(198);
+        rewards.setMonth3(78);
+
+        List<Rewards> expectedCustomer = List.of(rewards);
+
+        // Mocking the rewardsService.getAllCustomers method
+        when(rewardsService.getCustomerByID(Mockito.anyInt(),Mockito.anyString(),Mockito.anyString(),Mockito.anyString())).thenReturn(expectedCustomer);
+
+        // Perform the actual test
+        List<Rewards> actualCustomers = rewardsController.customersById(2,"2024-01","2024-02","2024-03");
+
+        // Verify the results
+        assertEquals(expectedCustomer.size(), actualCustomers.size());
+        assertEquals(expectedCustomer.get(0).getTotal(), actualCustomers.get(0).getTotal());
+        assertEquals(expectedCustomer.get(0).getFirstname(), actualCustomers.get(0).getFirstname());
+        assertEquals(expectedCustomer.get(0).getLastname(), actualCustomers.get(0).getLastname());
+        assertEquals(expectedCustomer.get(0).getCustomerId(), actualCustomers.get(0).getCustomerId());
+        assertEquals(expectedCustomer.get(0).getMonth1(), actualCustomers.get(0).getMonth1());
+        assertEquals(expectedCustomer.get(0).getMonth2(), actualCustomers.get(0).getMonth2());
+        assertEquals(expectedCustomer.get(0).getMonth2(), actualCustomers.get(0).getMonth2());
+    }
 
     @Test
     void testTransactions() {

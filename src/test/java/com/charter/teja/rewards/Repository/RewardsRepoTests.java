@@ -96,6 +96,34 @@ public class RewardsRepoTests {
         assertEquals(expectedCustomer.get(0).getMonth3(), actualCustomers.get(0).getMonth3());
     }
 
+    @Test
+    void testFindCustomerById(){
+        Rewards rewards = new Rewards();
+        rewards.setTotal(100);
+        rewards.setFirstname("Teja");
+        rewards.setLastname("Dasari");
+        rewards.setCustomerId(1);
+        rewards.setMonth1(178);
+        rewards.setMonth2(198);
+        rewards.setMonth3(78);
+
+        List<Rewards> expectedCustomer = List.of(rewards);
+
+        when(jdbcTemplate.query(Mockito.anyString(), Mockito.any(RowMapper.class), Mockito.any(Object[].class))).thenReturn(expectedCustomer);
+
+
+        List<Rewards> actualCustomers = rewardsRepository.findCustomerById("2024-01","2024-02","2024-03", 1);
+
+        assertEquals(expectedCustomer.size(), actualCustomers.size());
+        assertEquals(expectedCustomer.get(0).getTotal(), actualCustomers.get(0).getTotal());
+        assertEquals(expectedCustomer.get(0).getFirstname(), actualCustomers.get(0).getFirstname());
+        assertEquals(expectedCustomer.get(0).getLastname(), actualCustomers.get(0).getLastname());
+        assertEquals(expectedCustomer.get(0).getCustomerId(), actualCustomers.get(0).getCustomerId());
+        assertEquals(expectedCustomer.get(0).getMonth1(), actualCustomers.get(0).getMonth1());
+        assertEquals(expectedCustomer.get(0).getMonth2(), actualCustomers.get(0).getMonth2());
+        assertEquals(expectedCustomer.get(0).getMonth3(), actualCustomers.get(0).getMonth3());
+    }
+
 
     }
 

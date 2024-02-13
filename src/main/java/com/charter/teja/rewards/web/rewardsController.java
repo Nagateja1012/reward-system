@@ -23,9 +23,9 @@ public class rewardsController {
         return service.getAllCustomers(month1, month2, month3);
     }
 
-    @GetMapping("/rewards/{id}")
-    public Rewards customersById(@PathVariable int id) {
-        return null;
+    @GetMapping("/rewards/{id}/{month1}/{month2}/{month3}")
+    public List<Rewards> customersById(@PathVariable int id,@PathVariable String month1,@PathVariable String month2, @PathVariable String month3) {
+        return service.getCustomerByID(id, month1,month2,month3);
     }
 
     @GetMapping("/transactions")
