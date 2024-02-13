@@ -1,6 +1,6 @@
 package com.charter.teja.rewards.model;
 
-public class Rewards {
+public class Rewards{
 
         private String firstname;
 

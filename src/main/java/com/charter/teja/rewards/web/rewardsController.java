@@ -18,13 +18,13 @@ public class rewardsController {
         this.service = service;
     }
 
-    @GetMapping("/rewards")
-    public List<Rewards> customers(){
-        return service.getAllCustomers();
+    @GetMapping("/rewards/{month1}/{month2}/{month3}")
+    public List<Rewards> customers(@PathVariable String month1,@PathVariable String month2, @PathVariable String month3){
+        return service.getAllCustomers(month1, month2, month3);
     }
 
     @GetMapping("/rewards/{id}")
-    public Rewards customersbyid(@PathVariable int id) {
+    public Rewards customersById(@PathVariable int id) {
         return null;
     }
 

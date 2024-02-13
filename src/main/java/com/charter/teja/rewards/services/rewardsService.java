@@ -14,9 +14,9 @@ public class rewardsService {
     private rewardsRepo rewardsRepository;
 
 
-    public  List<Rewards> getAllCustomers() {
-//        return rewardsRepository.findAllCustomers();
-        return null;
+    public  List<Rewards> getAllCustomers(String month1, String month2, String month3) {
+      return rewardsRepository.findALLCustomers(month1,  month2,  month3);
+
     }
     public  List<transactions> getAllTransactions() {
         return rewardsRepository.findALLTransactions();

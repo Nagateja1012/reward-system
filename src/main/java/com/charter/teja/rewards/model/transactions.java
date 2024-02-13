@@ -1,11 +1,11 @@
 package com.charter.teja.rewards.model;
 
-import java.math.BigDecimal;
 
-public class transactions {
+
+public class transactions{
 
     private int transId;
-    private BigDecimal amount;
+    private Double amount;
     private String date;
 
     private Rewards rewards;
@@ -18,11 +18,11 @@ public class transactions {
         this.transId = transId;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
