@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #inputForm {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #inputText {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+    <title>JSON Data Table</title>
+</head>
+<body>
+
+<h2>Reward Point API</h2>
+
+<button onclick="sendTransactionsRequest()">Fetch Transactions Data</button>
+<button onclick="sendCustomersRequest()">Fetch Customers Data</button>
+
+<div id="inputForm">
+    <label for="inputText">Input:</label>
+    <input type="text" id="inputText">
+    <button onclick="sendGetRequest()">Submit</button>
+    <div id="result"></div>
+</div>
+
+<table id="transactionsTable" style="display:none"></table>
+<table id="customersTable" style="display:none"></table>
+
+
+
+<script>
+    function sendTransactionsRequest() {
+        if(document.getElementById("transactionsTable").style.display === 'none'){
+        fetch('http://localhost:8080/transactions') // Replace with your API endpoint for transactions
+            .then(response => response.json())
+            .then(data => displayTransactionsTable(data))
+            .catch(error => console.error('Error:', error));
+            document.getElementById("transactionsTable").style.display = 'block'
+            }
+            else{
+            document.getElementById("transactionsTable").style.display = 'none'
+            }
+
+    }
+
+    function sendCustomersRequest() {
+    if(document.getElementById("customersTable").style.display === 'none'){
+        fetch('http://localhost:8080/rewards/2024-01/2024-02/2024-03') // Replace with your API endpoint for customers
+            .then(response => response.json())
+            .then(data => displayCustomersTable(data))
+            .catch(error => console.error('Error:', error));
+           document.getElementById("customersTable").style.display = 'block'
+            }
+            else{
+            document.getElementById("customersTable").style.display = 'none'
+            }
+
+    }
+    function sendGetRequest() {
+        const inputValue = document.getElementById('inputText').value;
+        const apiUrl = `http://localhost:8080/rewards/${inputValue}/2024-01/2024-02/2024-03`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => displayCustomersTable(data))
+            .catch(error => console.error('Error:', error));
+             if(document.getElementById("transactionsTable").style.display === 'block'){
+                document.getElementById("transactionsTable").style.display = 'none'
+             }
+            document.getElementById("customersTable").style.display = 'block'
+
+    }
+
+    function displayTransactionsTable(data) {
+        displayTable(data, 'transactionsTable', ['transId',  'date', 'rewards.customerId','rewards.firstname', 'rewards.lastname','amount', 'rewards.total']);
+    }
+
+    function displayCustomersTable(data) {
+    if(data.length == 0){alert('No user with this id')};
+        displayTable(data, 'customersTable', ['customerId', 'firstname', 'lastname', 'month1', 'month2', 'month3', 'total']);
+    }
+
+    function displayTable(data, tableId, headers) {
+        const table = document.getElementById(tableId);
+        const resultDiv = document.getElementById('result');
+
+        // Clear existing table
+        table.innerHTML = '';
+
+        // Create table headers
+        const headerRow = table.insertRow(0);
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header.split('.').pop();
+            headerRow.appendChild(th);
+        });
+
+        // Create table rows
+        data.forEach(item => {
+            const row = table.insertRow(table.rows.length);
+
+            headers.forEach(header => {
+                const cell = row.insertCell(row.cells.length);
+                cell.textContent = getNestedPropertyValue(item, header);
+            });
+        });
+
+        // Display result
+        resultDiv.textContent = `${tableId} data loaded successfully!`;
+    }
+
+    function getNestedPropertyValue(obj, prop) {
+        const props = prop.split('.');
+        return props.reduce((acc, current) => acc && acc[current], obj);
+    }
+</script>
+
+</body>
+</html>

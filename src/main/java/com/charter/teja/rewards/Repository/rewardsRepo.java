@@ -15,19 +15,6 @@ public class rewardsRepo  {
     @Autowired
     private  JdbcTemplate jdbcTemplate;
 
-
-
-//    public List<Rewards> findAllCustomers() {
-//        String sql = "SELECT FIRSTNAME,id FROM customer";
-//        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-//            Rewards Rewards = new Rewards();
-//            Rewards.setMonth1(rs.getInt("id"));
-//            Rewards.setFirstname(rs.getString("firstname"));
-//            // Set other attributes as needed
-//            return Rewards;
-//        });
-//    }
-
     public List<transactions> findALLTransactions(){
         String sql = "SELECT FIRSTNAME, C.CUSTOMER_ID, LASTNAME, TRANSACTION_ID , DATE, AMOUNT FROM customer C,transactions T where C.CUSTOMER_ID = T.CUSTOMER_ID";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
